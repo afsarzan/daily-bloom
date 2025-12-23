@@ -223,6 +223,21 @@ export function useTasks() {
   const currentStreak = useMemo(() => getCurrentStreak(), [getCurrentStreak]);
   const weekProgress = useMemo(() => getWeekProgress(), [getWeekProgress]);
 
+  const reorderTasks = useCallback((activeId: string, overId: string) => {
+    setTasks((prev) => {
+      const oldIndex = prev.findIndex((t) => t.id === activeId);
+      const newIndex = prev.findIndex((t) => t.id === overId);
+      
+      if (oldIndex === -1 || newIndex === -1) return prev;
+      
+      const newTasks = [...prev];
+      const [movedTask] = newTasks.splice(oldIndex, 1);
+      newTasks.splice(newIndex, 0, movedTask);
+      
+      return newTasks;
+    });
+  }, []);
+
   return {
     tasks,
     activeTasks,
@@ -236,5 +251,6 @@ export function useTasks() {
     isTaskCompleted,
     getTaskCompletion,
     addTask,
+    reorderTasks,
   };
 }

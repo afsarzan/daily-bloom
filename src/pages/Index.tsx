@@ -7,6 +7,20 @@ import { ProgressChart } from '@/components/ProgressChart';
 import { AddTaskDialog } from '@/components/AddTaskDialog';
 import { Target, Flame, TrendingUp, CheckCircle2, Calendar, BarChart3 } from 'lucide-react';
 import { format } from 'date-fns';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
 const Index = () => {
   const {
@@ -18,7 +32,22 @@ const Index = () => {
     toggleTaskCompletion,
     isTaskCompleted,
     addTask,
+    reorderTasks,
   } = useTasks();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      reorderTasks(active.id as string, over.id as string);
+    }
+  };
 
   const weeklyAverage = Math.round(
     last7DaysStats.reduce((sum, stat) => sum + stat.completionRate, 0) / 7
@@ -101,17 +130,28 @@ const Index = () => {
               </span>
             </div>
 
-            <div className="space-y-3">
-              {activeTasks.map((task, index) => (
-                <TaskItem
-                  key={task.id}
-                  task={task}
-                  isCompleted={isTaskCompleted(task.id)}
-                  onToggle={() => toggleTaskCompletion(task.id)}
-                  animationDelay={index * 50}
-                />
-              ))}
-            </div>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={activeTasks.map((t) => t.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="space-y-3">
+                  {activeTasks.map((task, index) => (
+                    <TaskItem
+                      key={task.id}
+                      task={task}
+                      isCompleted={isTaskCompleted(task.id)}
+                      onToggle={() => toggleTaskCompletion(task.id)}
+                      animationDelay={index * 50}
+                    />
+                  ))}
+                </div>
+              </SortableContext>
+            </DndContext>
 
             {activeTasks.length === 0 && (
               <div className="text-center py-12 bg-card rounded-xl border border-border/50">
