@@ -115,7 +115,7 @@ export function ImportExcelDialog({ onImportTasks }: ImportExcelDialogProps) {
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="gap-2">
           <Upload className="h-4 w-4" />
-          Import
+          Import tasks
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
