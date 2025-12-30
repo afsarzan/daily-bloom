@@ -5,6 +5,7 @@ import { TaskItem } from '@/components/TaskItem';
 import { WeekProgress } from '@/components/WeekProgress';
 import { ProgressChart } from '@/components/ProgressChart';
 import { AddTaskDialog } from '@/components/AddTaskDialog';
+import { ImportExcelDialog } from '@/components/ImportExcelDialog';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { Target, Flame, TrendingUp, CheckCircle2, Calendar, BarChart3 } from 'lucide-react';
 import { format } from 'date-fns';
@@ -33,6 +34,7 @@ const Index = () => {
     toggleTaskCompletion,
     isTaskCompleted,
     addTask,
+    importTasks,
     reorderTasks,
   } = useTasks();
 
@@ -73,6 +75,7 @@ const Index = () => {
             </div>
             <div className="flex items-center gap-2">
               <ThemeSwitcher />
+              <ImportExcelDialog onImportTasks={importTasks} />
               <AddTaskDialog onAddTask={addTask} />
             </div>
           </div>
