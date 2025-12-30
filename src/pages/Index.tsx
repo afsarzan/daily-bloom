@@ -5,6 +5,7 @@ import { TaskItem } from '@/components/TaskItem';
 import { WeekProgress } from '@/components/WeekProgress';
 import { ProgressChart } from '@/components/ProgressChart';
 import { AddTaskDialog } from '@/components/AddTaskDialog';
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { Target, Flame, TrendingUp, CheckCircle2, Calendar, BarChart3 } from 'lucide-react';
 import { format } from 'date-fns';
 import {
@@ -70,7 +71,10 @@ const Index = () => {
                 <p className="text-xs text-muted-foreground">Track your progress</p>
               </div>
             </div>
-            <AddTaskDialog onAddTask={addTask} />
+            <div className="flex items-center gap-2">
+              <ThemeSwitcher />
+              <AddTaskDialog onAddTask={addTask} />
+            </div>
           </div>
         </div>
       </header>
