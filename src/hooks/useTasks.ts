@@ -218,6 +218,16 @@ export function useTasks() {
     setTasks((prev) => [...prev, newTask]);
   }, []);
 
+  const importTasks = useCallback((tasks: Omit<Task, 'id' | 'createdAt' | 'archived'>[]) => {
+    const newTasks: Task[] = tasks.map((task, index) => ({
+      ...task,
+      id: `${Date.now()}-${index}`,
+      createdAt: new Date(),
+      archived: false,
+    }));
+    setTasks((prev) => [...prev, ...newTasks]);
+  }, []);
+
   const todayStats = useMemo(() => getDailyStats(today), [getDailyStats, today]);
   const last7DaysStats = useMemo(() => getLast7DaysStats(), [getLast7DaysStats]);
   const currentStreak = useMemo(() => getCurrentStreak(), [getCurrentStreak]);
@@ -251,6 +261,7 @@ export function useTasks() {
     isTaskCompleted,
     getTaskCompletion,
     addTask,
+    importTasks,
     reorderTasks,
   };
 }

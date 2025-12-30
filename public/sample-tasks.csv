@@ -1,0 +1,7 @@
+title,description,category,type,target,unit,repetition
+Morning Workout,30 minutes exercise routine,health,binary,,,daily
+Read Books,Read for personal growth,personal,numeric,30,pages,daily
+Study React,Learn React development,work,numeric,60,minutes,weekdays
+Meditation,Daily mindfulness practice,health,binary,,,daily
+Water Intake,Stay hydrated throughout the day,health,numeric,8,glasses,daily
+Weekly Review,Review goals and progress,work,binary,,,custom
