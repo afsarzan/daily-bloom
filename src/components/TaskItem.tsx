@@ -3,6 +3,8 @@ import { Task, CATEGORY_CONFIG } from '@/types';
 import { Check, Delete, GripVertical } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import * as Dialog from '@radix-ui/react-dialog';
+import { Button } from './ui/button';
 
 interface TaskItemProps {
   task: Task;
@@ -105,7 +107,33 @@ export function TaskItem({ task, isCompleted, onDelete, onToggle, animationDelay
           {task.repetition}
         </span>
       </div>
-      <button onClick={onDelete}><Delete className="w-5 h-5 text-red-700" /> </button>
+      <Dialog.Root>
+          <Dialog.Trigger>
+            <button ><Delete className="w-5 h-5 text-red-700" /></button>
+          </Dialog.Trigger>
+
+          <Dialog.Content >
+            <Dialog.Title>Edit profile</Dialog.Title>
+            <Dialog.Description size="2" mb="4">
+              Make changes to your profile.
+            </Dialog.Description>
+
+               
+
+              <Dialog.Close>
+                <Button  color="gray" size='sm' className='mr-2 mt-2'>
+                  Cancel
+                </Button>
+              </Dialog.Close>
+              <Dialog.Close>
+                <Button  color="gray" onClick={onDelete} size='sm'>
+                  Delete
+                </Button>
+              </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Root>
+
+      
     </div>
   );
 }
