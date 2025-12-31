@@ -132,6 +132,15 @@ export function useTasks() {
     [completions, today]
   );
 
+  const isDeleteTask = useCallback(
+    (taskId: string): (() => void) => {
+      return () => {
+        setTasks((prev) => prev.filter((t) => t.id !== taskId));
+        setCompletions((prev) => prev.filter((c) => c.taskId !== taskId));
+      };
+    }, []
+  );
+
   const isTaskCompleted = useCallback(
     (taskId: string, date: string = today): boolean => {
       const completion = getTaskCompletion(taskId, date);
@@ -258,6 +267,7 @@ export function useTasks() {
     currentStreak,
     weekProgress,
     toggleTaskCompletion,
+    isDeleteTask,
     isTaskCompleted,
     getTaskCompletion,
     addTask,

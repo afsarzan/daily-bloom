@@ -33,6 +33,7 @@ const Index = () => {
     weekProgress,
     toggleTaskCompletion,
     isTaskCompleted,
+    isDeleteTask,
     addTask,
     importTasks,
     reorderTasks,
@@ -151,6 +152,7 @@ const Index = () => {
                     <TaskItem
                       key={task.id}
                       task={task}
+                      onDelete={isDeleteTask(task.id)}
                       isCompleted={isTaskCompleted(task.id)}
                       onToggle={() => toggleTaskCompletion(task.id)}
                       animationDelay={index * 50}

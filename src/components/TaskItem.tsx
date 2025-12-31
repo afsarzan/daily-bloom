@@ -1,17 +1,18 @@
 import { cn } from '@/lib/utils';
 import { Task, CATEGORY_CONFIG } from '@/types';
-import { Check, GripVertical } from 'lucide-react';
+import { Check, Delete, GripVertical } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 interface TaskItemProps {
   task: Task;
   isCompleted: boolean;
+  onDelete: () => void;
   onToggle: () => void;
   animationDelay?: number;
 }
 
-export function TaskItem({ task, isCompleted, onToggle, animationDelay = 0 }: TaskItemProps) {
+export function TaskItem({ task, isCompleted, onDelete, onToggle, animationDelay = 0 }: TaskItemProps) {
   const categoryConfig = CATEGORY_CONFIG[task.category];
   
   const {
@@ -104,6 +105,7 @@ export function TaskItem({ task, isCompleted, onToggle, animationDelay = 0 }: Ta
           {task.repetition}
         </span>
       </div>
+      <button onClick={onDelete}><Delete className="w-5 h-5 text-red-700" /> </button>
     </div>
   );
 }
